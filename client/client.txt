@@ -1,4 +1,2 @@
 all code for client
 
-cd client
-rm -rf .git
