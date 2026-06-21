@@ -8,10 +8,13 @@ const { connectDatabase } = require("./database/database");
 connectDatabase();
 
 const { registerUser, loginUser } = require("./controller/auth/authController");
+
+
 //routes
 const authRoute = require("./routes/authRoute")
-
+const productRoute = require("./routes/productRoute")
 app.use("", authRoute)
+app.use("", productRoute)
 
 
 const PORT = process.env.PORT;
