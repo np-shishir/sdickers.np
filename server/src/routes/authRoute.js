@@ -1,4 +1,4 @@
-const { registerUser, loginUser, forgotPassword, verifyOtp, resetPassword } = require("../controller/auth/authController")
+const { registerUser, loginUser, forgotPassword, verifyOtp, resetPassword, logoutUser } = require("../controller/auth/authController")
 
 const router = require("express").Router()
 
@@ -7,6 +7,7 @@ router.route("/login").post(loginUser)
 router.route("/forgotPassword").post(forgotPassword)
 router.route("/verifyOtp").post(verifyOtp)
 router.route("/resetPassword").post(resetPassword)
+router.route("/logout").post(logoutUser)
 
 
 

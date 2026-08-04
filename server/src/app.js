@@ -1,32 +1,55 @@
 const express = require("express");
 require("dotenv").config();
+
 const app = express();
+// Middlewares
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Database
 const { connectDatabase } = require("./database/database");
-connectDatabase();
-
-const { registerUser, loginUser } = require("./controller/auth/authController");
 
 
-//routes
-const authRoute = require("./routes/authRoute")
-const productRoute = require("./routes/productRoute")
-app.use("", authRoute)
-app.use("", productRoute)
+// Routes
+const authRoute = require("./routes/authRoute");
+const productRoute = require("./routes/productRoute");
+const orderRoute = require("./routes/orderRoute");
+const cartRoute = require("./routes/cartRoute");
+
+// Route Middleware
+app.use("/api", authRoute);
+app.use("/api", productRoute);
+app.use("/api", orderRoute);
+app.use("/api", cartRoute);
+
+// Default Route
+app.get("/", (req, res) => {
+  res.json({
+    message: "Sdickers API is running...",
+  });
+});
 
 
-const PORT = process.env.PORT;
+// 404 Handler
+app.use((req, res) => {
+  res.status(404).json({
+    message: "Route not found",
+  });
+});
+
+// Start Server
+const PORT = process.env.PORT || 5000;
+
 const startServer = async () => {
   try {
-    await connectDatabase(); // WAIT for DB connection
+    await connectDatabase();
 
     app.listen(PORT, () => {
-      console.log("Server started at PORT = " + PORT);
+      console.log(`Server running on PORT ${PORT}`);
     });
   } catch (err) {
-    console.log("DB Connection failed:", err);
+    console.log("Database Connection Failed:", err);
   }
 };
 

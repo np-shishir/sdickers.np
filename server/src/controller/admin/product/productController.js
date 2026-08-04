@@ -1,8 +1,6 @@
 const Product = require("../../../model/productModel");
 
-// ========================
 // Create Product
-// ========================
 exports.createProduct = async (req, res) => {
   try {
     const {
@@ -11,6 +9,7 @@ exports.createProduct = async (req, res) => {
       productPrice,
       productStatus,
       productStockQty,
+      productCategory,
     } = req.body;
 
     if (
@@ -18,7 +17,8 @@ exports.createProduct = async (req, res) => {
       !productDescription ||
       !productPrice ||
       !productStatus ||
-      !productStockQty
+      !productStockQty ||
+      !productCategory
     ) {
       return res.status(400).json({
         message: "Please provide all the details",
@@ -31,6 +31,7 @@ exports.createProduct = async (req, res) => {
       productPrice,
       productStatus,
       productStockQty,
+      productCategory,
     });
 
     res.status(201).json({
@@ -43,12 +44,54 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-// ========================
-// Get All Products
-// ========================
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const { search, category, minPrice, maxPrice, sort } = req.query;
+
+    // Filter Object
+    let filter = {};
+
+    // Search by Product Name
+    if (search) {
+      filter.productName = {
+        $regex: search,
+        $options: "i",
+      };
+    }
+
+    // Filter by Category
+    if (category) {
+      filter.productCategory = category;
+    }
+
+    // Filter by Price
+    if (minPrice || maxPrice) {
+      filter.productPrice = {};
+
+      if (minPrice) {
+        filter.productPrice.$gte = Number(minPrice);
+      }
+
+      if (maxPrice) {
+        filter.productPrice.$lte = Number(maxPrice);
+      }
+    }
+    // Sorting
+    let sortOption = {};
+
+    if (sort === "latest") {
+      sortOption = { createdAt: -1 };
+    }
+
+    if (sort === "priceAsc") {
+      sortOption = { productPrice: 1 };
+    }
+
+    if (sort === "priceDesc") {
+      sortOption = { productPrice: -1 };
+    }
+
+    const products = await Product.find(filter).sort(sortOption);
 
     res.status(200).json({
       message: "Products fetched successfully",
@@ -62,9 +105,8 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-// ========================
 // Get Single Product
-// ========================
+
 exports.getSingleProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -85,26 +127,28 @@ exports.getSingleProduct = async (req, res) => {
   }
 };
 
-// ========================
 // Update Product
-// ========================
+
 exports.updateProduct = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
 
-    if (!product) {
+    if (!updatedProduct) {
       return res.status(404).json({
         message: "Product not found",
       });
     }
 
-    await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
     res.status(200).json({
       message: "Product updated successfully",
+      data: updatedProduct,
     });
   } catch (error) {
     res.status(500).json({
@@ -113,20 +157,16 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-// ========================
 // Delete Product
-// ========================
 exports.deleteProduct = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
 
-    if (!product) {
+    if (!deletedProduct) {
       return res.status(404).json({
         message: "Product not found",
       });
     }
-
-    await Product.findByIdAndDelete(req.params.id);
 
     res.status(200).json({
       message: "Product deleted successfully",
