@@ -2,6 +2,7 @@ import React from 'react'
 import sticker from '../assets/images/metro-boomin-sticker.jpeg'
 import bgImage from '../assets/images/spiderverse.jpeg'
 import TrendingCollections from '../cards/TrendingCollections'
+import Reviews from '../cards/Reviews'
 
 const trending = [
     {
@@ -20,6 +21,34 @@ const trending = [
         bgImage: "https://i.pinimg.com/736x/40/66/14/406614169646c73356383fa37e9f87af.jpg"
     },
 ]
+
+const reviews = [
+    {
+        id: 1,
+        stars: 5,
+        reviewDescription: "Awsome",
+        userImage: "https://i.pinimg.com/736x/31/93/64/319364c3d37856f1fbfcf8bc4f88bc33.jpg",
+        userName: "Ram Bahadur"
+    },
+    {
+        id: 2,
+        stars: 5,
+        reviewDescription: "Awsome",
+        userImage: "https://i.pinimg.com/736x/7f/9b/f8/7f9bf8a58ada8d06048db32429581891.jpg",
+        userName: "Ram Bahadur"
+    },
+    {
+        id: 3,
+        stars: 5,
+        reviewDescription: "Awsome",
+        userImage: "https://i.pinimg.com/736x/93/f9/ef/93f9ef30d198140dc8341a26e604110a.jpg",
+        userName: "Ram Bahadur"
+    }
+]
+
+let shippedNumbers = 56;
+let averageRating = 4.5;
+let collectorNumbers = 13;
 
 export default function 
 () {
@@ -71,6 +100,55 @@ export default function
                     }
 
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div className='w-screen h-80 bg-[#00ff66] flex justify-center items-center'>
+        {/* container */}
+        <div className='flex flex-col justify-center items-center w-[60%] font-sans gap-y-7'>
+            <h1 className='text-4xl font-semibold'>JOIN THE CULTURE</h1>
+            <p className='text-sm'>Get access to Premium Drops, Exclusive Merch and Members-Only Pricing.</p>
+            <div className='flex justify-center items-center w-44 h-12 bg-black text-xs font-semibold text-white'>BECOME A MEMBER</div>
+        </div>
+    </div>
+    
+    {/* reviews */}
+    <div className='w-screen h-[600px] bg-[#181818] flex justify-center items-center font-sans'>
+        {/* container */}
+        <div className='w-[80%] flex flex-col items-center justify-center space-y-6'>
+            {/* numbers */}
+            <div className='flex w-[100%] justify-around'>
+
+                <div className='flex flex-col items-center justify-center gap-y-2'>
+                    <span className='text-6xl font-semibold text-white'>{shippedNumbers - 1} +</span>
+                    <span className='text-[#8a8a8a] text-xs'>Stickers Shipped</span>
+                </div>
+
+                <div className='flex flex-col items-center justify-center gap-y-2'>
+                    <span className='text-6xl font-semibold text-white'>{averageRating}/5</span>
+                    <span className='text-[#8a8a8a] text-xs'>Average Rating</span>
+                </div>
+
+                <div className='flex flex-col items-center justify-center gap-y-2'>
+                    <span className='text-6xl font-semibold text-white'>{collectorNumbers - 1} +</span>
+                    <span className='text-[#8a8a8a] text-xs'>Active Collectors</span>
+                </div>
+            </div>
+            
+            {/* review cards */}
+            <div className='flex w-[100%] justify-around'>
+                {
+                    reviews.map((item)=>(
+                        <Reviews
+                            key={item.id}
+                            stars = {item.stars}
+                            reviewDescription = {item.reviewDescription}
+                            userImage={item.userImage}
+                            userName = {item.userName}
+                        />
+                    ))
+                }
             </div>
         </div>
     </div>
