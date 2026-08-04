@@ -11,13 +11,14 @@ import { FaShoppingCart } from "react-icons/fa";
                 SDICKERS
             </div>
             <ul className='flex gap-x-11 text-[11px]'>
-                <li className='hover:text-[#00ff66] hover:cursor-pointer'>DROPS</li>
-                <li className='hover:text-[#00ff66] hover:cursor-pointer'>COLLECTIONS</li>
-                <li className='hover:text-[#00ff66] hover:cursor-pointer'>BEST SELLERS</li>
-                <li className='hover:text-[#00ff66] hover:cursor-pointer'>COMMUNITY</li>
+                <li className='hover:text-[#00ff66] cursor-pointer duration-500 ease-in-out'>DROPS</li>
+                <li className='hover:text-[#00ff66] cursor-pointer duration-500 ease-in-out'>COLLECTIONS</li>
+                <li className='hover:text-[#00ff66] cursor-pointer duration-500 ease-in-out'>BEST SELLERS</li>
+                <li className='hover:text-[#00ff66] cursor-pointer duration-500 ease-in-out'>COMMUNITY</li>
             </ul>
         </div>
         <div id="cart" className='flex items-center text-2xl text-white mx-10 gap-x-4'>
+            <div className='w-[100px] h-[30px] bg-[#00ff66] text-xs text-black flex items-center justify-center font-semibold rounded-full hover:outline-1 hover:outline-[#00ff66] hover:bg-black hover:text-white duration-500 ease-in-out cursor-pointer'>LOG IN</div>
             <FaSearch/>
             <FaShoppingCart/>
         </div>

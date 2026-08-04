@@ -69,12 +69,12 @@ export default function
                 <span className='text-[#8a8a8a] text-[11px]'>
                     Limited-edition artist collabs printed on premium weatherproof vinyl. Each drop is finite — once it's gone, it's gone.
                 </span>
-                <span className='text-[11px] text-white font-bold border border-[#8a8a8a] w-37.5 h-10 flex justify-center items-center'>
+                <span className='text-[11px] text-white font-bold border border-[#8a8a8a] w-37.5 h-10 flex justify-center items-center hover:bg-[#00ff66] hover:border-0 hover:text-black hover:cursor-pointer duration-500 ease-in-out'>
                     SHOP NEW DROP
                 </span>
             </div>
             <div id="right">
-                <img src={sticker} alt="sticker" className='h-64'/>
+                <img src={sticker} alt="sticker" className='h-64 hover:scale-110 duration-500 ease-in-out'/>
             </div>
         </div>
     </div>
@@ -112,7 +112,7 @@ export default function
         <div className='flex flex-col justify-center items-center w-[60%] font-sans gap-y-7'>
             <h1 className='text-4xl font-semibold'>JOIN THE CULTURE</h1>
             <p className='text-sm'>Get access to Premium Drops, Exclusive Merch and Members-Only Pricing.</p>
-            <div className='flex justify-center items-center w-44 h-12 bg-black text-xs font-semibold text-white'>BECOME A MEMBER</div>
+            <div className='flex justify-center items-center w-44 h-12 bg-black text-xs font-semibold text-white cursor-pointer hover:border-2 hover:border-black hover:bg-[#0000002f] hover:text-black duration-500 ease-in-out'>BECOME A MEMBER</div>
         </div>
     </div>
     
