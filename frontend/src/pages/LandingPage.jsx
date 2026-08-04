@@ -3,6 +3,9 @@ import sticker from '../assets/images/metro-boomin-sticker.jpeg'
 import bgImage from '../assets/images/spiderverse.jpeg'
 import TrendingCollections from '../cards/TrendingCollections'
 import Reviews from '../cards/Reviews'
+import { IoStar } from "react-icons/io5"
+
+
 
 const trending = [
     {
@@ -28,21 +31,21 @@ const reviews = [
         stars: 5,
         reviewDescription: "Awsome",
         userImage: "https://i.pinimg.com/736x/31/93/64/319364c3d37856f1fbfcf8bc4f88bc33.jpg",
-        userName: "Ram Bahadur"
+        userName: "Aashrya Sharma"
     },
     {
         id: 2,
         stars: 5,
         reviewDescription: "Awsome",
         userImage: "https://i.pinimg.com/736x/7f/9b/f8/7f9bf8a58ada8d06048db32429581891.jpg",
-        userName: "Ram Bahadur"
+        userName: "Shishir Nepal"
     },
     {
         id: 3,
         stars: 5,
         reviewDescription: "Awsome",
         userImage: "https://i.pinimg.com/736x/93/f9/ef/93f9ef30d198140dc8341a26e604110a.jpg",
-        userName: "Ram Bahadur"
+        userName: "Naman Yadav"
     }
 ]
 
@@ -114,7 +117,7 @@ export default function
     </div>
     
     {/* reviews */}
-    <div className='w-screen h-[600px] bg-[#181818] flex justify-center items-center font-sans'>
+    <div className='w-screen h-[550px] bg-[#181818] flex justify-center items-center font-sans'>
         {/* container */}
         <div className='w-[80%] flex flex-col items-center justify-center space-y-6'>
             {/* numbers */}
@@ -142,7 +145,9 @@ export default function
                     reviews.map((item)=>(
                         <Reviews
                             key={item.id}
-                            stars = {item.stars}
+                            stars={[...Array(item.stars)].map((_, index) => (
+                                <IoStar key={index} />
+                            ))}
                             reviewDescription = {item.reviewDescription}
                             userImage={item.userImage}
                             userName = {item.userName}

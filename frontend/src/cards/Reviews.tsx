@@ -4,7 +4,7 @@ export default function Reviews({stars, reviewDescription, userName, userImage})
   return (
     <>
         <div className='flex flex-col justify-center gap-y-2 bg-[#242424] rounded-2xl h-[150px] w-[350px] pl-4'>
-            <div className='text-[#00ff66]'>
+            <div className='text-[#00ff66] flex gap-0.5'>
                 {stars}
             </div>
             <div className='text-[#8a8a8a]'>
