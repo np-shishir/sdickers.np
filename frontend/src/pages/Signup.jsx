@@ -17,20 +17,20 @@ export default function Signup() {
           <div className='flex flex-col'>
             <div className='flex flex-col'>
                 <span className='text-[#8a8a8a]'>Full Name</span>
-                <input type="text" className='border-1 border-[#8a8a8a]'/>
+                <input type="text" className='border-1 border-[#8a8a8a] id="fname"'/>
               </div>
 
               <div className='flex flex-col'>
                 <span className='text-[#8a8a8a]'>Email Address</span>
-                <input type="email" className='border-1 border-[#8a8a8a]'/>
+                <input type="email" className='border-1 border-[#8a8a8a] id="email"'/>
               </div>
               <div className='flex flex-col'>
                 <span className='text-[#8a8a8a]'>Password</span>
-                <input type="password" className='border-1 border-[#8a8a8a]'/>
+                <input type="password" className='border-1 border-[#8a8a8a] id="password"'/>
               </div>
               <div className='flex flex-col'>
                 <span className='text-[#8a8a8a]'>Confirm Password</span>
-                <input type="password" className='border-1 border-[#8a8a8a]'/>
+                <input type="password" className='border-1 border-[#8a8a8a] id="confirm-password"'/>
               </div>
               <button className='bg-white'>
                 CREATE MY ACCOUNT
