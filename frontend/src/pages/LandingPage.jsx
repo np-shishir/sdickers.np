@@ -140,7 +140,7 @@ export default function
             </div>
             
             {/* review cards */}
-            <div className='flex w-[100%] justify-around'>
+            <div className='flex w-[100%] justify-around h-auto'>
                 {
                     reviews.map((item)=>(
                         <Reviews
