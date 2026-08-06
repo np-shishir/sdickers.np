@@ -3,7 +3,7 @@ import React from 'react'
 export default function StickerCard({stickerImage, stickerName, collectionType, stickerPrice}) {
   return (
     <>
-        <div className='flex flex-col rounded-2xl w-full border-2 border-[#2e2e2e]'>
+        <div className='flex flex-col rounded-2xl w-full border-2 border-[#2e2e2e] hover:shadow-[0_0_10px_rgba(0,255,102,1)] duration-500 ease-in-out hover:scale-105 hover:border-0'>
             <div className='flex justify-center items-center w-full p-5 bg-white rounded-t-2xl'>
                 <img src={stickerImage} className='w-full aspect-square object-cover' alt="" />
             </div>
