@@ -1,21 +1,41 @@
-import React from 'react'
+import React from "react";
 
-export default function StickerCard({stickerImage, stickerName, collectionType, stickerPrice}) {
+export default function StickerCard({
+  stickerImage,
+  stickerName,
+  collectionType,
+  stickerPrice,
+}) {
   return (
-    <>
-        <div className='flex flex-col rounded-2xl w-full border-2 border-[#2e2e2e] hover:shadow-[0_0_10px_rgba(0,255,102,1)] duration-500 ease-in-out hover:scale-105 hover:border-0'>
-            <div className='flex justify-center items-center w-full p-5 bg-white rounded-t-2xl'>
-                <img src={stickerImage} className='w-full aspect-square object-cover' alt="" />
-            </div>
-            {/* sticker details */}
-            <div className=' w-full flex flex-col justify-center pb-3 gap-y-1 px-4 pt-3 bg-[#181818] rounded-b-2xl'>
-                <div className='w-full flex justify-between items-center truncate'>
-                    <span className='text-white font-semibold '>{stickerName}</span>
-                    <span className='text-[#00ff66] font-semibold whitespace-nowrap'>Rs. {stickerPrice}</span>
-                </div>
-                <span className='text-xs text-[#8a8a8a]'>COLLECTION: {collectionType}</span>
-            </div>
+    <div className="flex flex-col w-full rounded-2xl overflow-hidden border-2 border-[#2e2e2e] bg-[#181818] hover:shadow-[0_0_12px_rgba(0,255,102,0.9)] hover:border-transparent hover:scale-105 duration-300">
+      {/* Image */}
+      <div className="bg-white p-6 flex items-center justify-center h-64">
+        <img
+          src={stickerImage}
+          alt={stickerName}
+          className="w-full h-full object-contain"
+        />
+      </div>
+
+      {/* Details */}
+      <div className="p-5 flex flex-col gap-2">
+        <div className="flex items-center justify-between gap-3">
+          <span
+            className="text-white font-semibold text-lg flex-1 truncate"
+            title={stickerName}
+          >
+            {stickerName}
+          </span>
+
+          <span className="text-[#00ff66] font-bold text-base flex-shrink-0">
+            Rs. {stickerPrice}
+          </span>
         </div>
-    </>
-  )
+
+        <span className="text-xs text-[#8a8a8a] uppercase tracking-wide">
+          Collection: {collectionType}
+        </span>
+      </div>
+    </div>
+  );
 }
