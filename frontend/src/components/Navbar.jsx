@@ -1,36 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import api from "../api";
+import { getUser, isLoggedIn, isAdmin, logout } from "../auth";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
-
 export default function Navbar() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const location = useLocation();
+  const [user, setUser] = useState(null);
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
-  }, []);
-
+    setUser(isLoggedIn() ? getUser() : null);
+  }, [location]);
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:3000/api/logout");
-
-      localStorage.removeItem("token");
-
-      alert("Logged out successfully");
-
-      setIsLoggedIn(false);
-
-      navigate("/login");
+      await api.post("/logout");
     } catch (error) {
-      alert(error.response?.data?.message || "Logout failed");
     }
+    logout();
+    setUser(null);
+    navigate("/login");
   };
-
   return (
     <div className="h-12.5 w-screen bg-black text-white flex justify-between text-[11px] sticky top-0 z-50">
-      {/* Left */}
       <div className="flex justify-between items-center">
         <div
           className="font-sans font-extrabold px-8 text-2xl cursor-pointer"
@@ -38,26 +28,45 @@ export default function Navbar() {
         >
           SDICKERS
         </div>
-
         <ul className="flex gap-x-11 text-[11px]">
-          <li className="hover:text-[#00ff66] cursor-pointer duration-500">
+          <li
+            className="hover:text-[#00ff66] cursor-pointer duration-500"
+            onClick={() => navigate("/marketplace")}
+          >
             DROPS
           </li>
-          <li className="hover:text-[#00ff66] cursor-pointer duration-500">
+          <li
+            className="hover:text-[#00ff66] cursor-pointer duration-500"
+            onClick={() => navigate("/marketplace")}
+          >
             COLLECTIONS
           </li>
-          <li className="hover:text-[#00ff66] cursor-pointer duration-500">
+          <li
+            className="hover:text-[#00ff66] cursor-pointer duration-500"
+            onClick={() => navigate("/marketplace")}
+          >
             BEST SELLERS
           </li>
-          <li className="hover:text-[#00ff66] cursor-pointer duration-500">
-            COMMUNITY
-          </li>
+          {isLoggedIn() && (
+            <li
+              className="hover:text-[#00ff66] cursor-pointer duration-500"
+              onClick={() => navigate("/orders")}
+            >
+              MY ORDERS
+            </li>
+          )}
         </ul>
       </div>
-
-      {/* Right */}
       <div className="flex items-center text-2xl text-white mx-10 gap-x-4">
-        {!isLoggedIn ? (
+        {isAdmin() && (
+          <button
+            onClick={() => navigate("/admin")}
+            className="h-[30px] px-4 bg-[#00ff66] text-xs text-black font-semibold rounded-full hover:bg-black hover:text-[#00ff66] hover:outline hover:outline-[#00ff66] duration-300 cursor-pointer"
+          >
+            ADMIN
+          </button>
+        )}
+        {!user ? (
           <>
             <button
               onClick={() => navigate("/login")}
@@ -65,7 +74,6 @@ export default function Navbar() {
             >
               LOG IN
             </button>
-
             <button
               onClick={() => navigate("/signup")}
               className="w-[90px] h-[30px] bg-[#00ff66] text-xs text-black font-semibold rounded-full hover:bg-black hover:text-[#00ff66] hover:outline hover:outline-[#00ff66] duration-300 cursor-pointer"
@@ -81,9 +89,16 @@ export default function Navbar() {
             LOG OUT
           </button>
         )}
-
-        <FaSearch className="cursor-pointer hover:text-[#00ff66]" />
-        <FaShoppingCart className="cursor-pointer hover:text-[#00ff66]" />
+        <FaSearch
+          className="cursor-pointer hover:text-[#00ff66]"
+          onClick={() => navigate("/marketplace")}
+          title="Search stickers"
+        />
+        <FaShoppingCart
+          className="cursor-pointer hover:text-[#00ff66]"
+          onClick={() => navigate(isLoggedIn() ? "/cart" : "/login")}
+          title="Cart"
+        />
       </div>
     </div>
   );

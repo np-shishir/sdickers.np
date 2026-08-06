@@ -1,0 +1,9 @@
+Server:
+npm start
+mongod --config /opt/homebrew/etc/mongod.conf
+
+frontend:
+npm run dev
+
+- **Email:** `sdickers.np@gmail.com`
+- **Password:** `Sdickers@#$1010`

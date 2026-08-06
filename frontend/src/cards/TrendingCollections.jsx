@@ -1,5 +1,4 @@
 import React from 'react'
-
 export default function TrendingCollections({ bgImage, title }) {
   return (
     <div
@@ -7,7 +6,6 @@ export default function TrendingCollections({ bgImage, title }) {
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-
       <div className="text-white font-bold text-2xl px-4 py-2 z-10">
         {title}
       </div>

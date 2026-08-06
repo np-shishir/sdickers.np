@@ -1,0 +1,36 @@
+Step 1:
+    Install Node Js in your system
+
+step 2:
+    run these commands:
+        brew tap mongodb/brew
+        brew install mongodb-community
+        brew services start mongodb-community
+    verify mongodb is running:
+        mongosh mongodb://localhost:27017
+
+step 3:
+    install node modules for server,
+    if you're in sdickers.np directory, run these
+        cd server
+        npm install
+
+step 4:
+    install node modules for frontend,
+    if you're in sdickers.np directory, run these
+        cd frontend
+        npm install
+
+step 5:
+    start the server:
+        cd server
+        npm start
+    if server doesn't start:
+        mongod --config /opt/homebrew/etc/mongod.conf
+    restart the server
+
+step 5:
+    run frontend:
+        cd frontend
+        npm run dev
+

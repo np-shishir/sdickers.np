@@ -1,26 +1,25 @@
 const mongoose = require("mongoose");
-
 const orderSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     customerName: {
       type: String,
       required: true,
     },
-
     customerPhone: {
       type: String,
       required: true,
     },
-
     customerEmail: {
       type: String,
     },
-
     deliveryAddress: {
       type: String,
       required: true,
     },
-
     items: [
       {
         product: {
@@ -39,18 +38,15 @@ const orderSchema = new mongoose.Schema(
         },
       },
     ],
-
     totalAmount: {
       type: Number,
       required: true,
     },
-
     paymentMethod: {
       type: String,
       enum: ["Cash on Delivery", "eSewa", "Khalti"],
       default: "Cash on Delivery",
     },
-
     orderStatus: {
       type: String,
       enum: [
@@ -68,5 +64,4 @@ const orderSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
-
 module.exports = mongoose.model("Order", orderSchema);

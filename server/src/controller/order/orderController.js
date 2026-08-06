@@ -1,8 +1,4 @@
 const Order = require("../../model/orderModel");
-
-// ======================
-// Create Order
-// ======================
 exports.createOrder = async (req, res) => {
   try {
     const {
@@ -14,7 +10,6 @@ exports.createOrder = async (req, res) => {
       totalAmount,
       paymentMethod,
     } = req.body;
-
     if (
       !customerName ||
       !customerPhone ||
@@ -27,8 +22,8 @@ exports.createOrder = async (req, res) => {
         message: "Please provide all required details",
       });
     }
-
     const order = await Order.create({
+      user: req.user ? req.user._id : undefined,
       customerName,
       customerPhone,
       customerEmail,
@@ -37,7 +32,6 @@ exports.createOrder = async (req, res) => {
       totalAmount,
       paymentMethod,
     });
-
     res.status(201).json({
       message: "Order placed successfully",
       data: order,
@@ -48,14 +42,11 @@ exports.createOrder = async (req, res) => {
     });
   }
 };
-
-// ======================
-// Get All Orders
-// ======================
-exports.getAllOrders = async (req, res) => {
+exports.getMyOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate("items.product");
-
+    const orders = await Order.find({ user: req.user._id })
+      .sort({ createdAt: -1 })
+      .populate("items.product");
     res.status(200).json({
       total: orders.length,
       data: orders,
@@ -66,20 +57,27 @@ exports.getAllOrders = async (req, res) => {
     });
   }
 };
-
-// ======================
-// Get Single Order
-// ======================
+exports.getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find().populate("items.product");
+    res.status(200).json({
+      total: orders.length,
+      data: orders,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 exports.getSingleOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate("items.product");
-
     if (!order) {
       return res.status(404).json({
         message: "Order not found",
       });
     }
-
     res.status(200).json({
       data: order,
     });
@@ -89,14 +87,9 @@ exports.getSingleOrder = async (req, res) => {
     });
   }
 };
-
-// ======================
-// Update Order Status
-// ======================
 exports.updateOrderStatus = async (req, res) => {
   try {
     const { orderStatus } = req.body;
-
     const updatedOrder = await Order.findByIdAndUpdate(
       req.params.id,
       { orderStatus },
@@ -105,13 +98,11 @@ exports.updateOrderStatus = async (req, res) => {
         runValidators: true,
       },
     );
-
     if (!updatedOrder) {
       return res.status(404).json({
         message: "Order not found",
       });
     }
-
     res.status(200).json({
       message: "Order status updated",
       data: updatedOrder,
@@ -122,20 +113,14 @@ exports.updateOrderStatus = async (req, res) => {
     });
   }
 };
-
-// ======================
-// Delete Order
-// ======================
 exports.deleteOrder = async (req, res) => {
   try {
     const deletedOrder = await Order.findByIdAndDelete(req.params.id);
-
     if (!deletedOrder) {
       return res.status(404).json({
         message: "Order not found",
       });
     }
-
     res.status(200).json({
       message: "Order deleted successfully",
     });
@@ -145,24 +130,17 @@ exports.deleteOrder = async (req, res) => {
     });
   }
 };
-
-// ======================
-// Track Orders by Phone
-// ======================
 exports.trackOrder = async (req, res) => {
   try {
     const { customerPhone } = req.body;
-
     if (!customerPhone) {
       return res.status(400).json({
         message: "Phone number is required",
       });
     }
-
     const orders = await Order.find({
       customerPhone,
     }).populate("items.product");
-
     res.status(200).json({
       total: orders.length,
       data: orders,

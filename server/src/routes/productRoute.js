@@ -2,27 +2,17 @@ const {
   createProduct,
   getAllProducts,
   getSingleProduct,
+  getRelatedProducts,
   updateProduct,
   deleteProduct,
 } = require("../controller/admin/product/productController");
-
 const isAuthenticated = require("../middleware/isAuthenticated");
-
+const isAdmin = require("../middleware/isAdmin");
 const router = require("express").Router();
-
-// Create Product
-router.route("/product").post(isAuthenticated, createProduct);
-
-// Get All Products
+router.route("/product").post(isAuthenticated, isAdmin, createProduct);
 router.route("/products").get(getAllProducts);
-
-// Get Single Product
 router.route("/product/:id").get(getSingleProduct);
-
-// Update Product
-router.route("/product/:id").patch(isAuthenticated, updateProduct);
-
-// Delete Product
-router.route("/product/:id").delete(isAuthenticated, deleteProduct);
-
+router.route("/product/:id/related").get(getRelatedProducts);
+router.route("/product/:id").patch(isAuthenticated, isAdmin, updateProduct);
+router.route("/product/:id").delete(isAuthenticated, isAdmin, deleteProduct);
 module.exports = router;

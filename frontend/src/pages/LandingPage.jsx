@@ -1,12 +1,8 @@
 import React from 'react'
 import sticker from '../assets/images/metro-boomin-sticker.jpeg'
-import bgImage from '../assets/images/spiderverse.jpeg'
 import TrendingCollections from '../cards/TrendingCollections'
 import Reviews from '../cards/Reviews'
 import { IoStar } from "react-icons/io5"
-
-
-
 const trending = [
     {
         id: 1,
@@ -24,7 +20,6 @@ const trending = [
         bgImage: "https://i.pinimg.com/736x/40/66/14/406614169646c73356383fa37e9f87af.jpg"
     },
 ]
-
 const reviews = [
     {
         id: 1,
@@ -48,12 +43,10 @@ const reviews = [
         userName: "Naman Yadav"
     }
 ]
-
 let shippedNumbers = 56;
 let averageRating = 4.5;
 let collectorNumbers = 13;
-
-export default function 
+export default function
 () {
   return (
     <>
@@ -78,15 +71,13 @@ export default function
             </div>
         </div>
     </div>
-
     <div className='h-12.5 w-screen bg-[#181818] text-white flex justify-center text-xl items-center text-center font-bold gap-x-15'>
            <span>NEW DROP LIVE</span>
            <div className='h-[5px] w-[5px] bg-[#00ff66] rounded-full'></div>
            <span>NEW DROP LIVE</span>
            <div className='h-[5px] w-[5px] bg-[#00ff66] rounded-full'></div>
-           <span>NEW DROP LIVE</span> 
+           <span>NEW DROP LIVE</span>
     </div>
-
     <div id='main' className=' w-screen h-180 bg-[#111111] flex justify-center items-center'>
         <div className='flex flex-col items-center justify-center gap-y-5'>
             <h1 className='font-sans text-white text-3xl font-bold'>TRENDING COLLECTIONS</h1>
@@ -94,52 +85,40 @@ export default function
                 <div className='flex gap-x-4'>
                     {
                         trending.map((item) => (
-                            <TrendingCollections 
+                            <TrendingCollections
                                 key={item.id}
                                 title={item.title}
                                 bgImage={item.bgImage}
                             />
                         ))
                     }
-
                 </div>
             </div>
         </div>
     </div>
-
     <div className='w-screen h-80 bg-[#00ff66] flex justify-center items-center'>
-        {/* container */}
         <div className='flex flex-col justify-center items-center w-[60%] font-sans gap-y-7'>
             <h1 className='text-4xl font-semibold'>JOIN THE CULTURE</h1>
             <p className='text-sm'>Get access to Premium Drops, Exclusive Merch and Members-Only Pricing.</p>
             <div className='flex justify-center items-center w-44 h-12 bg-black text-xs font-semibold text-white cursor-pointer hover:border-2 hover:border-black hover:bg-[#0000002f] hover:text-black duration-500 ease-in-out'>BECOME A MEMBER</div>
         </div>
     </div>
-    
-    {/* reviews */}
     <div className='w-screen h-[550px] bg-[#181818] flex justify-center items-center font-sans'>
-        {/* container */}
         <div className='w-[80%] flex flex-col items-center justify-center space-y-6'>
-            {/* numbers */}
             <div className='flex w-[100%] justify-around'>
-
                 <div className='flex flex-col items-center justify-center gap-y-2'>
                     <span className='text-6xl font-semibold text-white'>{shippedNumbers - 1} +</span>
                     <span className='text-[#8a8a8a] text-xs'>Stickers Shipped</span>
                 </div>
-
                 <div className='flex flex-col items-center justify-center gap-y-2'>
                     <span className='text-6xl font-semibold text-white'>{averageRating}/5</span>
                     <span className='text-[#8a8a8a] text-xs'>Average Rating</span>
                 </div>
-
                 <div className='flex flex-col items-center justify-center gap-y-2'>
                     <span className='text-6xl font-semibold text-white'>{collectorNumbers - 1} +</span>
                     <span className='text-[#8a8a8a] text-xs'>Active Collectors</span>
                 </div>
             </div>
-            
-            {/* review cards */}
             <div className='flex w-[100%] justify-around h-auto'>
                 {
                     reviews.map((item)=>(

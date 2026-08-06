@@ -1,5 +1,4 @@
 import React from 'react'
-
 export default function Reviews({stars, reviewDescription, userName, userImage}) {
   return (
     <>
