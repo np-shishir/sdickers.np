@@ -6,8 +6,8 @@ import './App.css'
 import {Routes, Route} from "react-router-dom"
 import Login from './pages/Login'
 import Signup from './pages/Signup'
-
-import MarketPlace from './pages/MarketPlace'
+import MarketPlace from './pages/Marketplace'
+// import MarketPlace from './pages/Marketplace-trash'
 
 
 function App() {
