@@ -7,7 +7,7 @@ import {Routes, Route} from "react-router-dom"
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 
-import Marketplace from './pages/Marketplace'
+import MarketPlace from './pages/MarketPlace'
 
 
 function App() {
