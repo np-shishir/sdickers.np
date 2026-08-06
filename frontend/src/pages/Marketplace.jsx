@@ -36,7 +36,7 @@ export default function MarketPlace() {
     fetchProducts();
   }, [selectedCategory, sort]);
   return (
-    <div className="w-screen h-screen bg-[#111111] pt-12 pb-12">
+    <div className="w-screen min-h-screen bg-[#111111] py-12">
       {/* container */}
       <div className="flex w-full h-full">
         {/* menu */}
@@ -44,6 +44,16 @@ export default function MarketPlace() {
           {/* categories */}
           <div className="flex flex-col text-xs text-[#8a8a8a] gap-y-4 w-[60%]">
             <span className="font-semibold text-[#00ff66]">CATEGORIES</span>
+
+            <span
+              onClick={() => setSelectedCategory("")}
+              className={`cursor-pointer ${
+                selectedCategory === "" ? "text-[#00ff66]" : ""
+              }`}
+            >
+              All
+            </span>
+
             {categories.map((category) => (
               <span
                 key={category}
@@ -100,7 +110,7 @@ export default function MarketPlace() {
           </div>
 
           {/* main shop */}
-          <div className="grid grid-cols-4 gap-10 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-8">
             {stickers.map((item) => (
               <StickerCard
                 key={item._id}
