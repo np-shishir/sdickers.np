@@ -1,9 +1,18 @@
-Server:
-npm start
-mongod --config /opt/homebrew/etc/mongod.conf
+Run the website locally (two terminals):
 
-frontend:
-npm run dev
+Terminal 1 — Backend:
+    cd server
+    npm start
+    (starts on http://localhost:3000, connects to Supabase Postgres)
 
-- **Email:** `sdickers.np@gmail.com`
-- **Password:** `Sdickers@#$1010`
+Terminal 2 — Frontend:
+    cd frontend
+    npm run dev
+    (open http://localhost:5173)
+
+Admin login (set in server/.env, account auto-created on first server start):
+    email:    the ADMIN_EMAIL you configured
+    password: the ADMIN_PASSWORD you configured
+
+Note: MongoDB is no longer used — the database is Postgres on Supabase.
+See "installation-guide" for full setup instructions.

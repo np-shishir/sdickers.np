@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../api";
+import { uploadProductImage } from "../../supabase";
 const EMPTY = {
   productName: "",
   productDescription: "",
@@ -16,6 +17,8 @@ export default function AdminProducts() {
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
   const fetchProducts = async () => {
     setLoading(true);
     try {
@@ -33,6 +36,8 @@ export default function AdminProducts() {
   const openCreate = () => {
     setEditingId(null);
     setForm(EMPTY);
+    setImageFile(null);
+    setImagePreview("");
     setShowForm(true);
   };
   const openEdit = (product) => {
@@ -46,17 +51,30 @@ export default function AdminProducts() {
       productStatus: product.productStatus || "available",
       productImage: product.productImage || "",
     });
+    setImageFile(null);
+    setImagePreview(product.productImage || "");
     setShowForm(true);
   };
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
   const save = async (e) => {
     e.preventDefault();
     setSaving(true);
     try {
+      let imageUrl = form.productImage;
+      if (imageFile) {
+        imageUrl = await uploadProductImage(imageFile);
+      }
       const payload = {
         ...form,
+        productImage: imageUrl,
         productPrice: Number(form.productPrice),
         productStockQty: Number(form.productStockQty),
       };
@@ -221,13 +239,56 @@ export default function AdminProducts() {
               onChange={handleChange}
               required
             />
-            <Input
-              label="Image URL"
-              name="productImage"
-              value={form.productImage}
-              onChange={handleChange}
-              placeholder="https://..."
-            />
+            <div className="flex flex-col gap-2">
+              <span className="text-[10px] text-[#8a8a8a] uppercase">
+                Sticker Image
+              </span>
+              <div className="flex items-center gap-4">
+                <div className="w-24 h-24 bg-white rounded-xl flex items-center justify-center p-2 flex-shrink-0 border border-[#2e2e2e]">
+                  {imagePreview ? (
+                    <img
+                      src={imagePreview}
+                      alt="preview"
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <span className="text-[#8a8a8a] text-xs">No image</span>
+                  )}
+                </div>
+                <div className="flex flex-col gap-2 flex-1">
+                  <label
+                    htmlFor="product-image-upload"
+                    className="h-11 px-4 rounded-lg border border-[#2e2e2e] text-[#00ff66] text-xs font-semibold hover:border-[#00ff66] cursor-pointer flex items-center justify-center"
+                  >
+                    CHOOSE IMAGE FROM PC
+                  </label>
+                  <input
+                    id="product-image-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                  />
+                  {imageFile && (
+                    <span className="text-[10px] text-[#8a8a8a] truncate">
+                      {imageFile.name}
+                    </span>
+                  )}
+                  {form.productImage && !imageFile && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setForm({ ...form, productImage: "" });
+                        setImagePreview("");
+                      }}
+                      className="text-red-500 text-xs font-semibold hover:underline cursor-pointer text-left w-fit"
+                    >
+                      Remove current image
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
             <div className="flex flex-col gap-2">
               <span className="text-[10px] text-[#8a8a8a] uppercase">
                 Status

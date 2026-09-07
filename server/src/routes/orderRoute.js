@@ -12,7 +12,7 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 const isAdmin = require("../middleware/isAdmin");
 const optionalAuth = require("../middleware/optionalAuth");
 router.post("/order", optionalAuth, createOrder);
-router.post("/order/track", trackOrder);
+router.post("/order/track", isAuthenticated, trackOrder);
 router.get("/myorders", isAuthenticated, getMyOrders);
 router.get("/orders", isAuthenticated, isAdmin, getAllOrders);
 router.get("/order/:id", isAuthenticated, isAdmin, getSingleOrder);

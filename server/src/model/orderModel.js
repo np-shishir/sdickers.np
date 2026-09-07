@@ -1,67 +1,50 @@
-const mongoose = require("mongoose");
-const orderSchema = new mongoose.Schema(
-  {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-    customerName: {
-      type: String,
-      required: true,
-    },
-    customerPhone: {
-      type: String,
-      required: true,
-    },
-    customerEmail: {
-      type: String,
-    },
-    deliveryAddress: {
-      type: String,
-      required: true,
-    },
-    items: [
-      {
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-          required: true,
-        },
-        quantity: {
-          type: Number,
-          required: true,
-          min: 1,
-        },
-        price: {
-          type: Number,
-          required: true,
-        },
-      },
-    ],
-    totalAmount: {
-      type: Number,
-      required: true,
-    },
-    paymentMethod: {
-      type: String,
-      enum: ["Cash on Delivery", "eSewa", "Khalti"],
-      default: "Cash on Delivery",
-    },
-    orderStatus: {
-      type: String,
-      enum: [
-        "Pending",
-        "Confirmed",
-        "Packed",
-        "Shipped",
-        "Delivered",
-        "Cancelled",
-      ],
-      default: "Pending",
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
-module.exports = mongoose.model("Order", orderSchema);
+const knex = require("../database/knex");
+
+const create = async (data, items) => {
+  return knex.transaction(async (trx) => {
+    const [order] = await trx("orders").insert(data).returning("*");
+    if (items && items.length) {
+      const rows = items.map((it) => ({
+        order_id: order.id,
+        product_id: it.product,
+        quantity: it.quantity,
+        price: it.price,
+      }));
+      await trx("order_items").insert(rows);
+    }
+    return order;
+  });
+};
+
+const findMyOrders = (userId) =>
+  knex("orders").where({ user_id: userId }).orderBy("created_at", "desc");
+
+const findAll = () => knex("orders").orderBy("created_at", "desc");
+
+const findById = (id) => knex("orders").where({ id }).first();
+
+const findItemsByOrder = (orderId) =>
+  knex("order_items").where({ order_id: orderId });
+
+const findByPhoneAndUser = (userId, phone) =>
+  knex("orders").where({ user_id: userId, customer_phone: phone });
+
+const updateStatus = (id, status) =>
+  knex("orders").where({ id }).update({ order_status: status, updated_at: knex.fn.now() }).returning("*");
+
+const remove = (id) => knex("orders").where({ id }).del();
+
+const getProductsByIds = (ids) =>
+  ids.length ? knex("products").whereIn("id", ids) : Promise.resolve([]);
+
+module.exports = {
+  create,
+  findMyOrders,
+  findAll,
+  findById,
+  findItemsByOrder,
+  findByPhoneAndUser,
+  updateStatus,
+  remove,
+  getProductsByIds,
+};

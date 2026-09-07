@@ -8,9 +8,9 @@ const optionalAuth = async (req, res, next) => {
   }
   try {
     const decoded = await promisify(jwt.verify)(token, process.env.SECRET_KEY);
-    const user = await User.findOne({ _id: decoded.id });
+    const user = await User.findById(decoded.id);
     if (user) {
-      req.user = user;
+      req.user = { ...user, _id: user.id };
     }
   } catch (error) {
   }
